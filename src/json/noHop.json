@@ -1,0 +1,42 @@
+[
+    {
+        "id":"bluna",
+        "token":"terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
+        "minter":"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts",
+        "terraswap":"terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p",
+        "astroport":"terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w",
+        "loop":"terra1v93ll6kqp33unukuwls3pslquehnazudu653au",
+        "rate":"state.bluna_exchange_rate",
+        
+        "test_minter":"terra1fflas6wv4snv8lsda9knvq2w0cyt493r8puh2e",
+        "test_token":"terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x",
+        "test_terraswap":"terra13e4jmcjnwrauvl2fnjdwex0exuzd8zrh5xk29v"
+    },
+    {
+        "id":"cluna",
+        "token":"terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau",
+        "minter":"terra1xw3h7jsmxvh6zse74e4099c6gl03fnmxpep76h",
+        "terraswap":"terra1ejyqwcemr5kda5pxwz27t2ja784j3d0nj0v6lh",
+        "astroport":null,
+        "loop":null,
+        "rate":"state.exchange_rate"
+    },
+    {
+        "id":"lunax",
+        "token":"terra17y9qkl8dfkeg4py7n0g5407emqnemc3yqk5rup",
+        "minter":"terra1xacqx447msqp46qmv8k2sq6v5jh9fdj37az898",
+        "terraswap":"terra1zrzy688j8g6446jzd88vzjzqtywh6xavww92hy",
+        "astroport":null,
+        "loop":"terra1ga8dcmurj8a3hd4vvdtqykjq9etnw5sjglw4rg",
+        "rate":"state.state.exchange_rate"
+    },
+    {
+        "id":"stluna",
+        "token":"terra1yg3j2s986nyp5z7r2lvt0hx3r0lnd7kwvwwtsc",
+        "minter":"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts",
+        "terraswap":"terra1de8xa55xm83s3ke0s20fc5pxy7p3cpndmmm7zk",
+        "astroport":"terra1gxjjrer8mywt4020xdl5e5x7n6ncn6w38gjzae",
+        "loop":"terra1utds4jwyg2x0ajpuvxu358ry3v5zx98e345cat",
+        "rate":"state.stluna_exchange_rate"
+    }
+]

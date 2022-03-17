@@ -1,0 +1,11 @@
+{
+    "colors":{
+        "nav":"white",
+        "bg":"grey",
+        "text":"white"
+    },
+    "font_family":{
+        "name": "Space Mono",
+        "type": "monospace"
+    }
+}

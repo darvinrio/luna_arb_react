@@ -1,0 +1,13 @@
+{
+    "colors":{
+        "nav":"#5493f7",
+        "bg":"#0e3ca5",
+        "text":"#5493f7",
+        "btn_light":"#f9d85e",
+        "btn_dark":"#ef7730"
+    },
+    "font_family":{
+        "name": "Space Mono",
+        "type": "monospace"
+    }
+}

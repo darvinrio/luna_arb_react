@@ -1,0 +1,164 @@
+[
+    {
+        "id": "cluna-prism",
+        "symbol": "cLuna",
+        "protocol": "Prism",
+        "token": "terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau",
+        "minter": "terra1xw3h7jsmxvh6zse74e4099c6gl03fnmxpep76h",
+        "router": "terra1yrc0zpwhuqezfnhdgvvh7vs5svqtgyl7pu3n6c",
+        "rate": "state.exchange_rate",
+        "route": [
+            "Luna",
+            "UST",
+            "Prism",
+            "cLuna"
+        ],
+        "query": {
+            "simulate_swap_operations": {
+                "offer_amount": "10000000",
+                "operations": [
+                    {
+                        "prism_swap": {
+                            "ask_asset_info": {
+                                "cw20": "terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw"
+                            },
+                            "offer_asset_info": {
+                                "native": "uluna"
+                            }
+                        }
+                    },
+                    {
+                        "prism_swap": {
+                            "ask_asset_info": {
+                                "cw20": "terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau"
+                            },
+                            "offer_asset_info": {
+                                "cw20": "terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "nluna-terraswap",
+        "symbol": "nLuna",
+        "protocol": "Terraswap",
+        "token": "terra10f2mt82kjnkxqj2gepgwl637u2w4ue2z5nhz5j",
+        "minter": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts",
+        "router": "terra19qx5xe6q9ll4w0890ux7lv2p4mf3csd4qvt3ex",
+        "rate": "state.bluna_exchange_rate",
+        "route": [
+            "Luna",
+            "UST",
+            "Psi",
+            "nLuna"
+        ],
+        "query": {
+            "simulate_swap_operations": {
+                "offer_amount": "10000000",
+                "operations": [
+                    {
+                        "native_swap": {
+                            "ask_denom": "uusd",
+                            "offer_denom": "uluna"
+                        }
+                    },
+                    {
+                        "terra_swap": {
+                            "ask_asset_info": {
+                                "token": {
+                                    "contract_addr": "terra12897djskt9rge8dtmm86w654g7kzckkd698608"
+                                }
+                            },
+                            "offer_asset_info": {
+                                "native_token": {
+                                    "denom": "uusd"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "terra_swap": {
+                            "ask_asset_info": {
+                                "token": {
+                                    "contract_addr": "terra10f2mt82kjnkxqj2gepgwl637u2w4ue2z5nhz5j"
+                                }
+                            },
+                            "offer_asset_info": {
+                                "token": {
+                                    "contract_addr": "terra12897djskt9rge8dtmm86w654g7kzckkd698608"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "nluna-astroport",
+        "symbol": "nLuna",
+        "protocol": "Astroport",
+        "token": "terra10f2mt82kjnkxqj2gepgwl637u2w4ue2z5nhz5j",
+        "minter": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts",
+        "router": "terra16t7dpwwgx9n3lq6l6te3753lsjqwhxwpday9zx",
+        "rate": "state.bluna_exchange_rate",
+        "route": [
+            "Luna",
+            "UST",
+            "Psi",
+            "nLuna"
+        ],
+        "query": {
+            "simulate_swap_operations": {
+                "offer_amount": "10000000",
+                "operations": [
+                    {
+                        "astro_swap": {
+                            "ask_asset_info": {
+                                "native_token": {
+                                    "denom": "uusd"
+                                }
+                            },
+                            "offer_asset_info": {
+                                "native_token": {
+                                    "denom": "uluna"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "astro_swap": {
+                            "ask_asset_info": {
+                                "token": {
+                                    "contract_addr": "terra12897djskt9rge8dtmm86w654g7kzckkd698608"
+                                }
+                            },
+                            "offer_asset_info": {
+                                "native_token": {
+                                    "denom": "uusd"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "astro_swap": {
+                            "ask_asset_info": {
+                                "token": {
+                                    "contract_addr": "terra10f2mt82kjnkxqj2gepgwl637u2w4ue2z5nhz5j"
+                                }
+                            },
+                            "offer_asset_info": {
+                                "token": {
+                                    "contract_addr": "terra12897djskt9rge8dtmm86w654g7kzckkd698608"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+]
