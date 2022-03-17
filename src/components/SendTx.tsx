@@ -33,10 +33,10 @@ export function SendTx(props: Props) {
             return;
         }
 
-        if (connectedWallet.network.chainID.startsWith('columbus')) {
-            alert(`Please only execute this example on Testnet`);
-            return;
-        }
+        // if (connectedWallet.network.chainID.startsWith('columbus')) {
+        //     alert(`Please only execute this example on Testnet`);
+        //     return;
+        // }
 
         setTxResult(null);
         setTxError(null);

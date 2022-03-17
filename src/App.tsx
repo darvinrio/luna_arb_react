@@ -38,9 +38,12 @@ function App() {
           <NavLogo>
             <p>
               <h1>
-                Happy {arb&&'Arbing'}{claim&&'Claiming'}
+                Happy {arb && 'Arbing'}{claim && 'Claiming'}
               </h1>
               - a mayo build
+              <Warn>
+                (use at your own risk)
+              </Warn>
             </p>
             <Button
               bg={"transparent"}
@@ -51,7 +54,7 @@ function App() {
                 activateClaim(!claim)
               }}
             >
-              <h4>({!arb&&'arbing'}{!claim&&'claiming'} ?)</h4>
+              <h4>({!arb && 'arbing'}{!claim && 'claiming'} ?)</h4>
             </Button>
           </NavLogo>
           <div>
@@ -98,6 +101,9 @@ const NavLogo = styled.div`
   flex-direction: row;
 
   align-items:baseline
+`
 
+const Warn = styled.h5`
+  color: yellow
 `
 
