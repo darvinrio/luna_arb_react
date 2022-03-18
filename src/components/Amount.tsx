@@ -28,7 +28,7 @@ export const Amount = ({ simAmt, setSimAmt }: props) => {
                 onSubmit={handleSubmit}
             >
                 <AmountGrid>
-                    <StyledLabel>Amount</StyledLabel>
+                    <StyledLabel>Amount of Luna</StyledLabel>
                     <StyledInput
                         type="number"
                         step=".000001"
@@ -50,7 +50,9 @@ export const Amount = ({ simAmt, setSimAmt }: props) => {
 const AmountGrid = styled.div`
     display:grid;
     grid-template-columns: 1fr 2fr 1fr;
-    align-items: center;
+    align-items:center;
+    /* align-self: center; */
+    /* justify-self:center; */
 
     @media (max-width: 768px){
     grid-template-columns: 1fr
@@ -74,4 +76,5 @@ const StyledInput = styled.input`
 const StyledLabel = styled.label`
     text-align: center;
     display: block;
+    font-size:2rem;
 `

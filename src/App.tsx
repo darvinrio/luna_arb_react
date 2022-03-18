@@ -7,7 +7,8 @@ import {
 } from '@terra-money/wallet-provider';
 //
 
-import { NoHop } from './components/NoHop';
+// import { NoHop } from './components/NoHop';
+import { Swaps } from './components/Swaps';
 import { WalletConnect } from './components/WalletConnect';
 import { PendingDelegations } from './components/PendingDelegations';
 
@@ -54,7 +55,7 @@ function App() {
                 activateClaim(!claim)
               }}
             >
-              <h4>({!arb && 'arbing'}{!claim && 'claiming'} ?)</h4>
+              <h4>({!arb && 'make arbs'}{!claim && 'track claims'})</h4>
             </Button>
           </NavLogo>
           <div>
@@ -65,7 +66,7 @@ function App() {
         <body>
           {
             arb &&
-            <NoHop simAmt={0} walletAddr={wallet!} />
+            <Swaps simAmt={0} walletAddr={wallet!} />
           }
           {
             claim &&

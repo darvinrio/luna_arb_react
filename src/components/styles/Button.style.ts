@@ -32,7 +32,7 @@ export const Button = styled.button<props>`
         transform: scale(0.98)
     }
     :disabled {
-        opacity: 0.9;
+        opacity: 1.2;
         transform: none;
         :hover {
             box-shadow: none 0 0;

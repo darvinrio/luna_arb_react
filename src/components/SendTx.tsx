@@ -28,7 +28,7 @@ export function SendTx(props: Props) {
     const connectedWallet = useConnectedWallet();
     const theme = useTheme();
 
-    const proceed = useCallback(() => {
+    const proceedStack = useCallback(() => {
         if (!connectedWallet) {
             return;
         }
@@ -81,7 +81,7 @@ export function SendTx(props: Props) {
                     <Button
                         bg={theme.colors.btn_dark}
                         disabled
-                        onClick={proceed}
+                        onClick={proceedStack}
                     >
                         not worth it
                     </Button>
@@ -90,7 +90,7 @@ export function SendTx(props: Props) {
                 {connectedWallet?.availablePost && !txResult && !txError && !props.disable && (
                     <Button
                         bg={theme.colors.btn_light}
-                        onClick={proceed}
+                        onClick={proceedStack}
                     >
                         Stack
                     </Button>
@@ -163,5 +163,5 @@ const Transact = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 `
