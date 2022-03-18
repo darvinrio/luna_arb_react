@@ -23,6 +23,7 @@ interface noHopState {
         token: string,
         pool?: string,
         apr: string,
+        pr:string,
         msg?: MsgExecuteContract[]
     },
     amount: number,
@@ -43,6 +44,7 @@ export class NoHop extends Component<props, { data: noHopState, DataisLoaded: bo
                 "best": {
                     token: "yolo",
                     apr: "0",
+                    pr: '0',
                 },
                 "amount": 10,
                 "div_token_list": null
@@ -84,6 +86,7 @@ export class NoHop extends Component<props, { data: noHopState, DataisLoaded: bo
                     token: token,
                     pool: dex,
                     apr: swapSimJSON.redeemAPR,
+                    pr: swapSimJSON.returnPR,
                     msg: msg
                 }
                 this.setState({
@@ -98,6 +101,7 @@ export class NoHop extends Component<props, { data: noHopState, DataisLoaded: bo
                         <p>
                             Output from swap : {swapSimJSON.swapReturn} <br />
                             LUNA on redeem : {swapSimJSON.swapRedeem} <br />
+                            Swap Return rate : {swapSimJSON.returnPR} % <br />
                             APR : {swapSimJSON.redeemAPR} %
                         </p>
                         <SendTx msg={msg} disable={disable} />
@@ -215,7 +219,8 @@ export class NoHop extends Component<props, { data: noHopState, DataisLoaded: bo
         temp.amount = amt
         temp.best = {
             token: "yolo",
-            apr: "0"
+            apr: "0",
+            pr:'0'
         }
         temp.div_token_list = null
 
@@ -245,7 +250,8 @@ export class NoHop extends Component<props, { data: noHopState, DataisLoaded: bo
                     <Amount simAmt={this.state.data.amount} setSimAmt={this.setSimAmt.bind(this)} />
                     <BestSwap>
                         <h1>
-                            Best rate: {this.state.data.best.apr}% <br />
+                            Best rate: <br />
+                            {this.state.data.best.pr}% or {this.state.data.best.apr}% APR<br />
                             {this.state.data.best.token} -
                             {this.state.data.best.pool}
                         </h1>

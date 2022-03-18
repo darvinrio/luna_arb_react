@@ -4,6 +4,19 @@ import {
 
 const lcd = new LCDClient({ URL: 'https://lcd.terra.dev', chainID: 'columbus-5' })
 
+
+export interface SwapSimJSON {
+    "poolExists":boolean,
+    "swapReturn":string,
+    "swapRedeem":string,
+    "redeemAPR":string,
+    "returnPR":string,
+
+    "lpContract"?:string|null,
+    "token"?:string,
+    "minter"?:string
+}
+
 async function noHopSimSwap(
     lpContract: string,
     targetAsset: string,
@@ -56,17 +69,6 @@ async function estLunaReturn(
 
 }
 
-export interface SwapSimJSON {
-    "poolExists":boolean,
-    "swapReturn":string,
-    "swapRedeem":string,
-    "redeemAPR":string,
-
-
-    "lpContract"?:string|null,
-    "token"?:string,
-    "minter"?:string
-}
 
 export async function noHopStack(
     lpContract: string|null,
@@ -80,18 +82,21 @@ export async function noHopStack(
             "poolExists":false,
             "swapReturn":'0',
             "swapRedeem":'0',
-            "redeemAPR":'0'
+            "redeemAPR":'0',
+            "returnPR":'0'
         }
     }
     let swapReturn:number = await noHopSimSwap(lpContract,targetAsset,amount)
     let swapRedeem:number =  await estLunaReturn(swapReturn,minter,rate)
     let redeemAPR:number = (swapRedeem-amount)*365*100/(amount*24)
+    let returnPR:number = (swapRedeem-amount)*100/(amount)
 
     return {
         "poolExists":true,
         "swapReturn":swapReturn.toFixed(6),
         "swapRedeem":swapRedeem.toFixed(6),
         "redeemAPR":redeemAPR.toFixed(2),
+        "returnPR":returnPR.toFixed(2),
 
         "lpContract":lpContract,
         "token":targetAsset,
@@ -111,12 +116,13 @@ export async function hopStack(
     let swapReturn:number = await hopSimSwap(router,query)
     let swapRedeem:number =  await estLunaReturn(swapReturn,minter,rate)
     let redeemAPR:number = (swapRedeem-amount)*365*100/(amount*24)
-    
+    let returnPR:number = (swapRedeem-amount)*100/(amount)
     
     return {
         "poolExists":true,
         "swapReturn":swapReturn.toFixed(6),
         "swapRedeem":swapRedeem.toFixed(6),
         "redeemAPR":redeemAPR.toFixed(2),
+        "returnPR":returnPR.toFixed(2)
     }
 }
