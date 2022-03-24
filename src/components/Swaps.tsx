@@ -138,6 +138,7 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
             swapSimJSON.minter!
         )
 
+        // let disable = false
         let disable: boolean = (parseFloat(swapSimJSON.redeemAPR) <= 10) ? true : false
 
         if (parseFloat(swapSimJSON.redeemAPR) > parseFloat(this.state.data.best.apr)) {
@@ -218,7 +219,7 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
                     <h2>{token.id}</h2>
                     <TokenSwaps>
                         {await this.allPools(token)}
-                        {await this.allHops(token)}
+                        {/* {await this.allHops(token)} */}
                     </TokenSwaps>
                 </>
             )
