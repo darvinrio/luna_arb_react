@@ -20,7 +20,6 @@ import { Amount } from './Amount';
 import { SendTx } from './SendTx';
 
 import noHop from "../json/noHop.json"
-import Hop from "../json/Hop.json"
 import { MsgExecuteContract } from '@terra-money/terra.js';
 // import { Button } from './styles/Button.style';
 
@@ -110,7 +109,12 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
         return (
             <div key={Math.random()}>
                 <SwapInfo>
-                    {dex}
+                    <>
+                        {dex}
+                        <p>
+                            {'pool'}
+                        </p>
+                    </>
                     <p>
                         swap output : {swapSimJSON.swapReturn} <br />
                         LUNA redeemed : {swapSimJSON.swapRedeem} <br />
@@ -127,16 +131,22 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
         swapSimJSON: SwapSimJSON,
         token: string,
         dex: string,
-        route: route
-        ) {
+        route: route,
+        minter: string
+    ) {
         let msg = buildHopSwapTx(
             this.props.walletAddr,
-            swapSimJSON.token!,
+            token,
             route,
             this.state.data.amount,
             parseFloat(swapSimJSON.swapReturn!),
-            swapSimJSON.minter!
+            minter
         )
+
+        let routeStr: string = ''
+        route.route.map(asset => {
+            routeStr += (asset.token + '>')
+        })
 
         // let disable = false
         let disable: boolean = (parseFloat(swapSimJSON.redeemAPR) <= 10) ? true : false
@@ -158,7 +168,12 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
         return (
             <div key={Math.random()}>
                 <SwapInfo>
-                    {dex}
+                    <>
+                        {dex}
+                        <p>
+                            {routeStr}
+                        </p>
+                    </>
                     <p>
                         swap output : {swapSimJSON.swapReturn} <br />
                         LUNA redeemed : {swapSimJSON.swapRedeem} <br />
@@ -197,14 +212,15 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
         const hop_div = await Promise.all(token.hops.map(async hop => {
             return this.handleHopStack(
                 await hopStack(
-                    10,
+                    this.state.data.amount,
                     hop,
                     token.minter,
                     token.rate_cmd,
                 ),
                 token.token_addr,
                 hop.protocol,
-                hop
+                hop,
+                token.minter
             )
         }))
 
@@ -219,7 +235,7 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
                     <h2>{token.id}</h2>
                     <TokenSwaps>
                         {await this.allPools(token)}
-                        {/* {await this.allHops(token)} */}
+                        {await this.allHops(token)}
                     </TokenSwaps>
                 </>
             )

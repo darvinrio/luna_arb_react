@@ -1,6 +1,6 @@
 import { MsgSend, MsgExecuteContract } from '@terra-money/terra.js';
 
-import { route,routeSwap } from './HopSwap';
+import { route, routeSwap } from './HopSwap';
 
 import { createHookMsg } from './utils';
 
@@ -20,7 +20,7 @@ export function NoHopSwapTx(
 
     let msg = {
         "swap": {
-            "belief_price":belief_price.toString(),
+            "belief_price": belief_price.toString(),
             "max_spread": "0.001",
             "offer_asset": {
                 "info": {
@@ -47,20 +47,18 @@ export function NoHopSwapTx(
 export function HopSwapTx(
     user: string,
     amt: number,
-    route:route
+    route: route
 ) {
     let amount: string = (amt * Math.pow(10, 6)).toString()
 
-    let query=routeSwap(
+    let query = routeSwap(
         amt,
         route.protocol,
         route.route,
-        true
+        false
     )
 
-    let msg = {
-        "swap": query
-    }
+    let msg = query
 
     let tx_msg: MsgExecuteContract = new MsgExecuteContract(
         user, // sender
@@ -113,60 +111,88 @@ export function initiateRedeem(
 
 }
 
-
 export function buildNoHopSwapTx(
-    user:string,
-    lpContract: string|null|undefined,
+    user: string,
+    lpContract: string | null | undefined,
     targetAsset: string,
     swapAmount: number,
     // expSwapOutAmount: number,
     redeemAmount: number,
     minter: string
-){
+) {
 
     // if(lpContract===null || lpContract===undefined){
     //     return null
     // } 
 
-    let belief_price = swapAmount/redeemAmount
+    let belief_price = swapAmount / redeemAmount
 
-    let swapTx:MsgExecuteContract = NoHopSwapTx(
+    let swapTx: MsgExecuteContract = NoHopSwapTx(
         user,
         swapAmount,
         lpContract!,
         belief_price,
     )
 
-    let redeemTx:MsgExecuteContract = initiateRedeem(
+    let redeemTx: MsgExecuteContract = initiateRedeem(
         user,
         redeemAmount,
         targetAsset,
         minter
     )
 
-    return [swapTx,redeemTx]
+    return [swapTx, redeemTx]
 }
 
 export function buildHopSwapTx(
-    user:string,
+    user: string,
     targetAsset: string,
-    route:route,
-    swapAmount:number,
-    redeemAmount:number,
-    minter:string,
+    route: route,
+    swapAmount: number,
+    redeemAmount: number,
+    minter: string,
 ) {
-    let swapTx:MsgExecuteContract = HopSwapTx(
+
+    let swapTx: MsgExecuteContract = HopSwapTx(
         user,
         swapAmount,
         route
     )
 
-    let redeemTx:MsgExecuteContract = initiateRedeem(
-        user,
-        redeemAmount,
-        targetAsset,
-        minter
-    )
+    //nLuna condition
+    if (targetAsset === "terra10f2mt82kjnkxqj2gepgwl637u2w4ue2z5nhz5j") {
 
-    return [swapTx,redeemTx]
+        let msg = createHookMsg({ "withdraw": {} })
+
+        let withdrawTx: MsgExecuteContract = new MsgExecuteContract(
+            user,
+            targetAsset,
+            {
+                "send": {
+                    "msg": msg,
+                    "amount": Math.floor(redeemAmount * Math.pow(10, 6)).toString(),
+                    "contract": "terra1cda4adzngjzcn8quvfu2229s8tedl5t306352x"
+                }
+            }
+        )
+
+        let redeemTx: MsgExecuteContract = initiateRedeem(
+            user,
+            redeemAmount,
+            "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp", //bluna
+            "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts" //bluna hub
+        )
+
+        return [swapTx, withdrawTx, redeemTx]
+    } else {
+
+        let redeemTx: MsgExecuteContract = initiateRedeem(
+            user,
+            redeemAmount,
+            targetAsset,
+            minter
+        )
+
+        return [swapTx, redeemTx]
+    }
 }

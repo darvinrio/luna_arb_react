@@ -76,7 +76,28 @@
                 "address":"terra1ga8dcmurj8a3hd4vvdtqykjq9etnw5sjglw4rg"
             }
         ],
-        "hops":[],
+        "hops":[{
+            "protocol":"terra",
+            "protocol_name":"Terraswap",
+            "router":"terra19qx5xe6q9ll4w0890ux7lv2p4mf3csd4qvt3ex",
+            "route": [
+                {
+                    "token":"LUNA",
+                    "contract": "uluna",
+                    "is_native_swap": false
+                },
+                {
+                    "token":"bLUNA",
+                    "contract": "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
+                    "is_native_swap": false
+                },
+                {
+                    "token":"LUNAx",
+                    "contract": "terra17y9qkl8dfkeg4py7n0g5407emqnemc3yqk5rup",
+                    "is_native_swap": false
+                }
+            ]
+        }],
 
         "rate_cmd":"state.state.exchange_rate"
     },

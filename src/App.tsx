@@ -43,7 +43,7 @@ function App() {
               </h1>
               - a mayo build
               <Warn>
-                (use at your own risk)
+                (use at your own risk, please test with small amount first)
               </Warn>
             </p>
             <Button
