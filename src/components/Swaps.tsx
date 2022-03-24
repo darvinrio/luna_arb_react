@@ -7,7 +7,13 @@ import {
     hopStack
 } from './scripts/NoHopSwap';
 import {
-    buildTransaction
+    routeAsset,
+    route,
+    routeSwap
+} from './scripts/HopSwap';
+import {
+    buildNoHopSwapTx,
+    buildHopSwapTx
 } from './scripts/TxBuilder';
 
 import { Amount } from './Amount';
@@ -40,11 +46,13 @@ interface pool {
     address: string
 }
 
+
 interface token {
     id: string,
     token_addr: string,
     minter: string,
     pools: pool[],
+    hops: route[],
     rate_cmd: string
 }
 
@@ -73,7 +81,7 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
         token: string
     ) {
 
-        let msg = buildTransaction(
+        let msg = buildNoHopSwapTx(
             this.props.walletAddr,
             swapSimJSON.lpContract,
             swapSimJSON.token!,
@@ -96,7 +104,54 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
             }
             this.setState({
                 data: temp,
-                DataisLoaded: true
+                DataisLoaded: false
+            });
+        }
+        return (
+            <div key={Math.random()}>
+                <SwapInfo>
+                    {dex}
+                    <p>
+                        swap output : {swapSimJSON.swapReturn} <br />
+                        LUNA redeemed : {swapSimJSON.swapRedeem} <br />
+                        swap rate : {swapSimJSON.returnPR} % <br />
+                        annual rate : {swapSimJSON.redeemAPR} %
+                    </p>
+                    <SendTx msg={msg} disable={disable} />
+                </SwapInfo>
+            </div>
+        )
+    }
+
+    handleHopStack(
+        swapSimJSON: SwapSimJSON,
+        token: string,
+        dex: string,
+        route: route
+        ) {
+        let msg = buildHopSwapTx(
+            this.props.walletAddr,
+            swapSimJSON.token!,
+            route,
+            this.state.data.amount,
+            parseFloat(swapSimJSON.swapReturn!),
+            swapSimJSON.minter!
+        )
+
+        let disable: boolean = (parseFloat(swapSimJSON.redeemAPR) <= 10) ? true : false
+
+        if (parseFloat(swapSimJSON.redeemAPR) > parseFloat(this.state.data.best.apr)) {
+            let temp = this.state.data
+            temp.best = {
+                token: token,
+                pool: dex,
+                apr: swapSimJSON.redeemAPR,
+                pr: swapSimJSON.returnPR,
+                msg: msg
+            }
+            this.setState({
+                data: temp,
+                DataisLoaded: false
             });
         }
         return (
@@ -135,13 +190,35 @@ export class Swaps extends Component<props, { data: noHopState, DataisLoaded: bo
         return pool_div
     }
 
+    async allHops(
+        token: token
+    ) {
+        const hop_div = await Promise.all(token.hops.map(async hop => {
+            return this.handleHopStack(
+                await hopStack(
+                    10,
+                    hop,
+                    token.minter,
+                    token.rate_cmd,
+                ),
+                token.token_addr,
+                hop.protocol,
+                hop
+            )
+        }))
+
+        return hop_div
+    }
+
     async allTokens() {
         const token_div = await Promise.all(noHop.map(async token => {
+
             return (
                 <>
                     <h2>{token.id}</h2>
                     <TokenSwaps>
                         {await this.allPools(token)}
+                        {await this.allHops(token)}
                     </TokenSwaps>
                 </>
             )

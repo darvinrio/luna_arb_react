@@ -7,7 +7,7 @@ import {
     hopStack
 } from './scripts/NoHopSwap';
 import {
-    buildTransaction
+    buildNoHopSwapTx
 } from './scripts/TxBuilder';
 
 import { Amount } from './Amount';
@@ -60,7 +60,7 @@ export class NoHop extends Component<props, { data: noHopState, DataisLoaded: bo
         token: string
     ) {
 
-        let msg = buildTransaction(
+        let msg = buildNoHopSwapTx(
             // "terra...",
             this.props.walletAddr,
             swapSimJSON.lpContract,

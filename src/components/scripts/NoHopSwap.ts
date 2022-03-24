@@ -2,6 +2,8 @@ import {
     LCDClient,
 } from "@terra-money/terra.js";
 
+import { route,routeSwap } from "./HopSwap";
+
 const lcd = new LCDClient({ URL: 'https://lcd.terra.dev', chainID: 'columbus-5' })
 
 
@@ -105,15 +107,28 @@ export async function noHopStack(
 }
 
 export async function hopStack(
-    router:string,
-    query:any,
-    amount: number,
-    minter: string,
-    rate: string,
+    amt: number,
+    route:route,
+    minter:string,
+    rate:string,
 ) {
-    query.simulate_swap_operations.offer_amount = (amount*Math.pow(10,6)).toString()
+
+    let amount:number = amt
+
+    let query=routeSwap(
+        amt,
+        route.protocol,
+        route.route,
+        true
+    )
+
+    // let msg = {
+    //     "swap": query
+    // }
+
+    // query.simulate_swap_operations.offer_amount = (amount*Math.pow(10,6)).toString()
     
-    let swapReturn:number = await hopSimSwap(router,query)
+    let swapReturn:number = await hopSimSwap(route.router,query)
     let swapRedeem:number =  await estLunaReturn(swapReturn,minter,rate)
     let redeemAPR:number = (swapRedeem-amount)*365*100/(amount*24)
     let returnPR:number = (swapRedeem-amount)*100/(amount)

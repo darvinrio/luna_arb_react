@@ -9,7 +9,6 @@
         "rate": "state.exchange_rate",
         "route": [
             "Luna",
-            "UST",
             "Prism",
             "cLuna"
         ],

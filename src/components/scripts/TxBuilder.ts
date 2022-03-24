@@ -1,5 +1,7 @@
 import { MsgSend, MsgExecuteContract } from '@terra-money/terra.js';
 
+import { route,routeSwap } from './HopSwap';
+
 import { createHookMsg } from './utils';
 
 interface hopJsonMsg {
@@ -45,11 +47,16 @@ export function NoHopSwapTx(
 export function HopSwapTx(
     user: string,
     amt: number,
-    router: string,
-    query: hopJsonMsg
+    route:route
 ) {
     let amount: string = (amt * Math.pow(10, 6)).toString()
-    query.offer_amount = amount
+
+    let query=routeSwap(
+        amt,
+        route.protocol,
+        route.route,
+        true
+    )
 
     let msg = {
         "swap": query
@@ -57,7 +64,7 @@ export function HopSwapTx(
 
     let tx_msg: MsgExecuteContract = new MsgExecuteContract(
         user, // sender
-        router, // contract account address
+        route.router, // contract account address
         msg, // handle msg
         { uluna: amount }
     )
@@ -106,7 +113,8 @@ export function initiateRedeem(
 
 }
 
-export function buildTransaction(
+
+export function buildNoHopSwapTx(
     user:string,
     lpContract: string|null|undefined,
     targetAsset: string,
@@ -127,6 +135,30 @@ export function buildTransaction(
         swapAmount,
         lpContract!,
         belief_price,
+    )
+
+    let redeemTx:MsgExecuteContract = initiateRedeem(
+        user,
+        redeemAmount,
+        targetAsset,
+        minter
+    )
+
+    return [swapTx,redeemTx]
+}
+
+export function buildHopSwapTx(
+    user:string,
+    targetAsset: string,
+    route:route,
+    swapAmount:number,
+    redeemAmount:number,
+    minter:string,
+) {
+    let swapTx:MsgExecuteContract = HopSwapTx(
+        user,
+        swapAmount,
+        route
     )
 
     let redeemTx:MsgExecuteContract = initiateRedeem(
